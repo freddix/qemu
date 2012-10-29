@@ -17,7 +17,7 @@ BuildRequires:	bluez-libs-devel
 BuildRequires:	gnutls-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	perl-tools-pod
-BuildRequires:	pkgconfig
+BuildRequires:	pkg-config
 BuildRequires:	sed >= 4.0
 BuildRequires:	which
 BuildRequires:	xorg-libX11-devel
