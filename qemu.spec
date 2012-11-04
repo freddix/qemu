@@ -1,7 +1,7 @@
 Summary:	QEMU CPU Emulator
 Name:		qemu
 Version:	1.2.0
-Release:	4
+Release:	5
 License:	GPL
 Group:		Applications/Emulators
 Source0:	http://wiki.qemu.org/download/%{name}-%{version}.tar.bz2
@@ -41,7 +41,7 @@ CPUs. QEMU has two operating modes:
 %package guest-agent
 Summary:	QEMU guest agent
 Group:		Daemons
-Requires:	systemd-units
+Requires(post,preun,postun):	systemd-units
 
 %description guest-agent
 QEMU guest agent.
@@ -51,11 +51,12 @@ QEMU guest agent.
 
 %build
 ./configure \
-	--audio-drv-list="alsa"		\
+	--audio-drv-list="alsa,sdl,pa"	\
 	--cc="%{__cc}"			\
 	--disable-strip			\
 	--enable-mixemu			\
 	--extra-cflags="%{rpmcflags}"	\
+	--extra-ldflags="%{rpmldflags}"	\
 	--host-cc="%{__cc}"		\
 	--interp-prefix=%{_libexecdir}	\
 	--libexecdir=%{_libexecdir}	\
@@ -71,10 +72,10 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT	\
 	libexecdir=%{_libexecdir}
 
-install -p -D %{SOURCE10} $RPM_BUILD_ROOT/usr/lib/udev/rules.d/80-kvm.rules
-install -p -D %{SOURCE11} $RPM_BUILD_ROOT/usr/lib/modules-load.d/kvm.conf
-install -p -D %{SOURCE12} $RPM_BUILD_ROOT/usr/lib/systemd/system/qemu-guest-agent.service
-install -p %{SOURCE13} $RPM_BUILD_ROOT/usr/lib/udev/rules.d/99-qemu-guest-agent.rules
+install -p -D %{SOURCE10} $RPM_BUILD_ROOT%{_prefix}/lib/udev/rules.d/80-kvm.rules
+install -p -D %{SOURCE11} $RPM_BUILD_ROOT%{_prefix}/lib/modules-load.d/kvm.conf
+install -p -D %{SOURCE12} $RPM_BUILD_ROOT%{systemdunitdir}/qemu-guest-agent.service
+install -p %{SOURCE13} $RPM_BUILD_ROOT%{_prefix}/lib/udev/rules.d/99-qemu-guest-agent.rules
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -91,6 +92,15 @@ if [ "$1" = "0" ]; then
     %groupremove kvm
 fi
 
+%post guest-agent
+%systemd_post qemu-guest-agent.service
+
+%preun guest-agent
+%systemd_preun qemu-guest-agent.service
+
+%postun guest-agent
+%systemd_postun
+
 %files
 %defattr(644,root,root,755)
 %doc README qemu-doc.html qemu-tech.html
@@ -99,8 +109,8 @@ fi
 %attr(755,root,root) %{_libexecdir}/qemu-bridge-helper
 %exclude %{_bindir}/qemu-ga
 %{_sysconfdir}/qemu
-%config(noreplace) %verify(not md5 mtime size) /usr/lib/modules-load.d/kvm.conf
-/usr/lib/udev/rules.d/80-kvm.rules
+%config(noreplace) %verify(not md5 mtime size) %{_prefix}/lib/modules-load.d/kvm.conf
+%{_prefix}/lib/udev/rules.d/80-kvm.rules
 %{_datadir}/qemu
 
 %{_mandir}/man1/qemu-img.1*
@@ -110,6 +120,6 @@ fi
 
 %files guest-agent
 %attr(755,root,root) %{_bindir}/qemu-ga
-/usr/lib/systemd/system/qemu-guest-agent.service
-/usr/lib/udev/rules.d/99-qemu-guest-agent.rules
+%{systemdunitdir}/qemu-guest-agent.service
+%{_prefix}/lib/udev/rules.d/99-qemu-guest-agent.rules
 
