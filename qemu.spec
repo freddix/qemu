@@ -1,11 +1,11 @@
 Summary:	QEMU CPU Emulator
 Name:		qemu
-Version:	1.2.0
-Release:	5
+Version:	1.2.1
+Release:	1
 License:	GPL
 Group:		Applications/Emulators
 Source0:	http://wiki.qemu.org/download/%{name}-%{version}.tar.bz2
-# Source0-md5:	78eb1e984f4532aa9f2bdd3c127b5b61
+# Source0-md5:	189bc5b87281a72f8c72a0f7ebaa6d00
 Source10:	80-kvm.rules
 Source11:	kvm-modules-load.conf
 Source12:	qemu-guest-agent.service
@@ -24,6 +24,7 @@ BuildRequires:	xorg-libX11-devel
 Requires(pre,postun):	coreutils
 Requires(pre,postun):	pwdutils
 Provides:	group(kvm)
+Conflicts:	qemu-kvm
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # some PPC/SPARC boot image in ELF format
