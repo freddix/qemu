@@ -1,11 +1,11 @@
 Summary:	QEMU CPU Emulator
 Name:		qemu
-Version:	1.3.1
-Release:	1
+Version:	1.4.0
+Release:	2
 License:	GPL
 Group:		Applications/Emulators
 Source0:	http://wiki.qemu.org/download/%{name}-%{version}.tar.bz2
-# Source0-md5:	5dbc6c22f47efca71dfaae0dd80dcf9e
+# Source0-md5:	78f13b774814b6b7ebcaf4f9b9204318
 Source10:	80-kvm.rules
 Source11:	kvm-modules-load.conf
 Source12:	qemu-guest-agent.service
@@ -23,6 +23,7 @@ BuildRequires:	which
 BuildRequires:	xorg-libX11-devel
 Requires(pre,postun):	coreutils
 Requires(pre,postun):	pwdutils
+Requires(postun):	/usr/sbin/ldconfig
 Provides:	group(kvm)
 Conflicts:	qemu-kvm
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -60,6 +61,7 @@ QEMU guest agent.
 	--extra-ldflags="%{rpmldflags}"	\
 	--host-cc="%{__cc}"		\
 	--interp-prefix=%{_libexecdir}	\
+	--libdir=%{_libdir}		\
 	--libexecdir=%{_libexecdir}	\
 	--prefix=%{_prefix}		\
 	--sysconfdir=%{_sysconfdir}	\
@@ -86,7 +88,10 @@ rm -rf $RPM_BUILD_ROOT
 %groupadd -g 104 qemu
 %useradd -u 104 -g qemu -G kvm -c "QEMU User" qemu
 
+%post -p /usr/sbin/ldconfig
+
 %postun
+/usr/sbin/ldconfig
 if [ "$1" = "0" ]; then
     %userremove qemu
     %groupremove qemu
@@ -106,6 +111,8 @@ fi
 %defattr(644,root,root,755)
 %doc README qemu-doc.html qemu-tech.html
 %attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %ghost %{_libdir}/libcacard.so.0
+%attr(755,root,root) %{_libdir}/libcacard.so.*.*.*
 %dir %{_libexecdir}
 %attr(755,root,root) %{_libexecdir}/qemu-bridge-helper
 %exclude %{_bindir}/qemu-ga
