@@ -13,7 +13,7 @@ Source13:	99-qemu-guest-agent.rules
 URL:		http://wiki.qemu.org/Index.html
 BuildRequires:	SDL-devel
 BuildRequires:	alsa-lib-devel
-BuildRequires:	bluez-libs-devel
+BuildRequires:	bluez4-devel
 BuildRequires:	gnutls-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	perl-tools-pod
