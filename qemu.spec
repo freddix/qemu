@@ -1,11 +1,11 @@
 Summary:	QEMU CPU Emulator
 Name:		qemu
-Version:	1.4.1
+Version:	1.5.0
 Release:	1
 License:	GPL
 Group:		Applications/Emulators
 Source0:	http://wiki.qemu.org/download/%{name}-%{version}.tar.bz2
-# Source0-md5:	eb2d696956324722b5ecfa46e41f9a75
+# Source0-md5:	b6f3265b8ed39d77e8f354f35cc26e16
 Source10:	80-kvm.rules
 Source11:	kvm-modules-load.conf
 Source12:	qemu-guest-agent.service
@@ -15,6 +15,7 @@ BuildRequires:	SDL-devel
 BuildRequires:	alsa-lib-devel
 BuildRequires:	bluez4-devel
 BuildRequires:	gnutls-devel
+BuildRequires:	gtk+-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	perl-tools-pod
 BuildRequires:	pkg-config
