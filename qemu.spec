@@ -1,11 +1,11 @@
 Summary:	QEMU CPU Emulator
 Name:		qemu
-Version:	1.5.1
+Version:	1.5.2
 Release:	1
 License:	GPL
 Group:		Applications/Emulators
 Source0:	http://wiki.qemu.org/download/%{name}-%{version}.tar.bz2
-# Source0-md5:	b56e73bdcfdb214d5c68e13111aca96f
+# Source0-md5:	04b94189ba587b3280713ded3b7f959a
 Source10:	80-kvm.rules
 Source11:	kvm-modules-load.conf
 Source12:	qemu-guest-agent.service
