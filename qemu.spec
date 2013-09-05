@@ -1,7 +1,7 @@
 Summary:	QEMU CPU Emulator
 Name:		qemu
 Version:	1.6.0
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Emulators
 Source0:	http://wiki.qemu.org/download/%{name}-%{version}.tar.bz2
@@ -34,7 +34,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_libexecdir	%{_libdir}/%{name}
 
-%define		targets		i386-softmmu i386-linux-user x86_64-softmmu x86_64-linux-user arm-softmmu arm-linux-user
+%define		targets		i386-softmmu i386-linux-user x86_64-softmmu x86_64-linux-user arm-softmmu arm-linux-user mips-softmmu mipsel-softmmu mipsel-linux-user mipsn32-linux-user mipsn32el-linux-user
 
 %description
 QEMU is a FAST! processor emulator. By using dynamic translation it
