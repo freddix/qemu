@@ -1,11 +1,15 @@
+%define		bios_ver	1.7.3.1
+
 Summary:	QEMU CPU Emulator
 Name:		qemu
 Version:	1.6.0
-Release:	2
+Release:	3
 License:	GPL
 Group:		Applications/Emulators
 Source0:	http://wiki.qemu.org/download/%{name}-%{version}.tar.bz2
 # Source0-md5:	f3f39308472d629aca57a255a0c91ba9
+Source1:	http://code.coreboot.org/p/seabios/downloads/get/seabios-%{bios_ver}.tar.gz
+# Source1-md5:	f2b67ae9cc4172b1d0204669ad93f019
 Source10:	80-kvm.rules
 Source11:	kvm-modules-load.conf
 Source12:	qemu-guest-agent.service
@@ -16,10 +20,11 @@ BuildRequires:	alsa-lib-devel
 BuildRequires:	bluez4-devel
 BuildRequires:	gnutls-devel
 BuildRequires:	gtk+-devel
+BuildRequires:	iasl
 BuildRequires:	ncurses-devel
 BuildRequires:	perl-tools-pod
 BuildRequires:	pkg-config
-BuildRequires:	sed >= 4.0
+BuildRequires:	sed
 BuildRequires:	which
 BuildRequires:	xorg-libX11-devel
 Requires(pre,postun):	coreutils
@@ -29,7 +34,6 @@ Provides:	group(kvm)
 Conflicts:	qemu-kvm
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-# some PPC/SPARC boot image in ELF format
 %define		_noautostrip	.*%{_datadir}/qemu/.*
 
 %define		_libexecdir	%{_libdir}/%{name}
@@ -50,7 +54,7 @@ Requires(post,preun,postun):	systemd-units
 QEMU guest agent.
 
 %prep
-%setup -q
+%setup -q -a1
 
 %build
 ./configure \
@@ -69,6 +73,9 @@ QEMU guest agent.
 	--target-list="%{targets}"
 %{__make}
 
+cd seabios-%{bios_ver}
+%{__make} -j1
+
 %install
 rm -rf $RPM_BUILD_ROOT
 
@@ -80,6 +87,8 @@ install -p -D %{SOURCE10} $RPM_BUILD_ROOT%{_prefix}/lib/udev/rules.d/80-kvm.rule
 install -p -D %{SOURCE11} $RPM_BUILD_ROOT%{_prefix}/lib/modules-load.d/kvm.conf
 install -p -D %{SOURCE12} $RPM_BUILD_ROOT%{systemdunitdir}/qemu-guest-agent.service
 install -p %{SOURCE13} $RPM_BUILD_ROOT%{_prefix}/lib/udev/rules.d/99-qemu-guest-agent.rules
+
+install seabios-%{bios_ver}/out/bios.bin $RPM_BUILD_ROOT%{_datadir}/qemu/bios.bin
 
 %clean
 rm -rf $RPM_BUILD_ROOT
