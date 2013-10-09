@@ -2,12 +2,12 @@
 
 Summary:	QEMU CPU Emulator
 Name:		qemu
-Version:	1.6.0
-Release:	3
+Version:	1.6.1
+Release:	1
 License:	GPL
 Group:		Applications/Emulators
 Source0:	http://wiki.qemu.org/download/%{name}-%{version}.tar.bz2
-# Source0-md5:	f3f39308472d629aca57a255a0c91ba9
+# Source0-md5:	3a897d722457c5a895cd6ac79a28fda0
 Source1:	http://code.coreboot.org/p/seabios/downloads/get/seabios-%{bios_ver}.tar.gz
 # Source1-md5:	f2b67ae9cc4172b1d0204669ad93f019
 Source10:	80-kvm.rules
