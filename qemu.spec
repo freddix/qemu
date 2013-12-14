@@ -1,15 +1,15 @@
-%define		bios_ver	1.7.3.1
+%define		bios_ver	1.7.3.2
 
 Summary:	QEMU CPU Emulator
 Name:		qemu
-Version:	1.6.1
+Version:	1.7.0
 Release:	1
 License:	GPL
 Group:		Applications/Emulators
 Source0:	http://wiki.qemu.org/download/%{name}-%{version}.tar.bz2
-# Source0-md5:	3a897d722457c5a895cd6ac79a28fda0
+# Source0-md5:	32893941d40d052a5e649efcf06aca06
 Source1:	http://code.coreboot.org/p/seabios/downloads/get/seabios-%{bios_ver}.tar.gz
-# Source1-md5:	f2b67ae9cc4172b1d0204669ad93f019
+# Source1-md5:	27b8cfcfe04b0830de105367545d763c
 Source10:	80-kvm.rules
 Source11:	kvm-modules-load.conf
 Source12:	qemu-guest-agent.service
@@ -61,7 +61,6 @@ QEMU guest agent.
 	--audio-drv-list="alsa,sdl,pa"	\
 	--cc="%{__cc}"			\
 	--disable-strip			\
-	--enable-mixemu			\
 	--extra-cflags="%{rpmcflags}"	\
 	--extra-ldflags="%{rpmldflags}"	\
 	--host-cc="%{__cc}"		\
