@@ -1,15 +1,15 @@
-%define		bios_ver	1.7.3.2
+%define		bios_ver	1.7.4
 
 Summary:	QEMU CPU Emulator
 Name:		qemu
-Version:	1.7.0
+Version:	2.0.0
 Release:	1
 License:	GPL
 Group:		Applications/Emulators
 Source0:	http://wiki.qemu.org/download/%{name}-%{version}.tar.bz2
-# Source0-md5:	32893941d40d052a5e649efcf06aca06
+# Source0-md5:	2790f44fd76da5de5024b4aafeb594c2
 Source1:	http://code.coreboot.org/p/seabios/downloads/get/seabios-%{bios_ver}.tar.gz
-# Source1-md5:	27b8cfcfe04b0830de105367545d763c
+# Source1-md5:	e2d4ac598233b42483e4b8c387b453e8
 Source10:	80-kvm.rules
 Source11:	kvm-modules-load.conf
 Source12:	qemu-guest-agent.service
@@ -38,7 +38,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_libexecdir	%{_libdir}/%{name}
 
-%define		targets		i386-softmmu i386-linux-user x86_64-softmmu x86_64-linux-user arm-softmmu arm-linux-user mips-softmmu mipsel-softmmu mipsel-linux-user mipsn32-linux-user mipsn32el-linux-user
+%define		targets		i386-softmmu i386-linux-user x86_64-softmmu x86_64-linux-user arm-softmmu arm-linux-user
 
 %description
 QEMU is a FAST! processor emulator. By using dynamic translation it
