@@ -1,29 +1,32 @@
-%define		bios_ver	1.7.4
+%define		bios_ver	1.7.5
 
 Summary:	QEMU CPU Emulator
 Name:		qemu
-Version:	2.0.0
+Version:	2.1.2
 Release:	1
 License:	GPL
 Group:		Applications/Emulators
 Source0:	http://wiki.qemu.org/download/%{name}-%{version}.tar.bz2
-# Source0-md5:	2790f44fd76da5de5024b4aafeb594c2
+# Source0-md5:	0ff197c4ed4b695620bc4734e77c888f
 Source1:	http://code.coreboot.org/p/seabios/downloads/get/seabios-%{bios_ver}.tar.gz
-# Source1-md5:	e2d4ac598233b42483e4b8c387b453e8
+# Source1-md5:	3f1e17485ca327b245ae5938d9aa02d9
 Source10:	80-kvm.rules
 Source11:	kvm-modules-load.conf
 Source12:	qemu-guest-agent.service
 Source13:	99-qemu-guest-agent.rules
+Patch0:		%{name}-sdl-disable-broken-scaling.patch
 URL:		http://wiki.qemu.org/Index.html
 BuildRequires:	SDL-devel
 BuildRequires:	alsa-lib-devel
-BuildRequires:	bluez4-devel
+#BuildRequires:	bluez4-devel
 BuildRequires:	gnutls-devel
-BuildRequires:	gtk+-devel
 BuildRequires:	iasl
+BuildRequires:	libaio-devel
+BuildRequires:	libseccomp-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	perl-tools-pod
 BuildRequires:	pkg-config
+BuildRequires:	pulseaudio-devel
 BuildRequires:	sed
 BuildRequires:	which
 BuildRequires:	xorg-libX11-devel
@@ -35,9 +38,7 @@ Conflicts:	qemu-kvm
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautostrip	.*%{_datadir}/qemu/.*
-
 %define		_libexecdir	%{_libdir}/%{name}
-
 %define		targets		i386-softmmu i386-linux-user x86_64-softmmu x86_64-linux-user arm-softmmu arm-linux-user
 
 %description
@@ -55,20 +56,25 @@ QEMU guest agent.
 
 %prep
 %setup -q -a1
+%patch0 -p1
 
 %build
 ./configure \
-	--audio-drv-list="alsa,sdl,pa"	\
-	--cc="%{__cc}"			\
-	--disable-strip			\
 	--extra-cflags="%{rpmcflags}"	\
 	--extra-ldflags="%{rpmldflags}"	\
 	--host-cc="%{__cc}"		\
+	--cc="%{__cc}"			\
 	--interp-prefix=%{_libexecdir}	\
 	--libdir=%{_libdir}		\
 	--libexecdir=%{_libexecdir}	\
 	--prefix=%{_prefix}		\
 	--sysconfdir=%{_sysconfdir}	\
+	--audio-drv-list="alsa,sdl,pa"	\
+	--disable-gtk			\
+	--disable-strip			\
+	--enable-linux-aio		\
+	--enable-seccomp		\
+	--enable-tpm			\
 	--target-list="%{targets}"
 %{__make}
 
