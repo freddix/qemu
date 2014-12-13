@@ -2,19 +2,18 @@
 
 Summary:	QEMU CPU Emulator
 Name:		qemu
-Version:	2.1.2
+Version:	2.2.0
 Release:	1
 License:	GPL
 Group:		Applications/Emulators
 Source0:	http://wiki.qemu.org/download/%{name}-%{version}.tar.bz2
-# Source0-md5:	0ff197c4ed4b695620bc4734e77c888f
+# Source0-md5:	f7a5e2da22d057eb838a91da7aff43c8
 Source1:	http://code.coreboot.org/p/seabios/downloads/get/seabios-%{bios_ver}.tar.gz
 # Source1-md5:	3f1e17485ca327b245ae5938d9aa02d9
 Source10:	80-kvm.rules
 Source11:	kvm-modules-load.conf
 Source12:	qemu-guest-agent.service
 Source13:	99-qemu-guest-agent.rules
-Patch0:		%{name}-sdl-disable-broken-scaling.patch
 URL:		http://wiki.qemu.org/Index.html
 BuildRequires:	SDL-devel
 BuildRequires:	alsa-lib-devel
@@ -56,7 +55,6 @@ QEMU guest agent.
 
 %prep
 %setup -q -a1
-%patch0 -p1
 
 %build
 ./configure \
