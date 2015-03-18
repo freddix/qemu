@@ -1,15 +1,15 @@
-%define		bios_ver	1.7.5
+%define		bios_ver	1.8.1
 
 Summary:	QEMU CPU Emulator
 Name:		qemu
-Version:	2.2.0
+Version:	2.2.1
 Release:	1
 License:	GPL
 Group:		Applications/Emulators
 Source0:	http://wiki.qemu.org/download/%{name}-%{version}.tar.bz2
-# Source0-md5:	f7a5e2da22d057eb838a91da7aff43c8
+# Source0-md5:	833ff4457062456d38d6567f802ffef4
 Source1:	http://code.coreboot.org/p/seabios/downloads/get/seabios-%{bios_ver}.tar.gz
-# Source1-md5:	3f1e17485ca327b245ae5938d9aa02d9
+# Source1-md5:	581c3c5f19434e7835d893c3b71c47ae
 Source10:	80-kvm.rules
 Source11:	kvm-modules-load.conf
 Source12:	qemu-guest-agent.service
@@ -25,7 +25,7 @@ BuildRequires:	libseccomp-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	perl-tools-pod
 BuildRequires:	pkg-config
-BuildRequires:	pulseaudio-devel
+#BuildRequires:	pulseaudio-devel
 BuildRequires:	sed
 BuildRequires:	which
 BuildRequires:	xorg-libX11-devel
@@ -67,7 +67,7 @@ QEMU guest agent.
 	--libexecdir=%{_libexecdir}	\
 	--prefix=%{_prefix}		\
 	--sysconfdir=%{_sysconfdir}	\
-	--audio-drv-list="alsa,sdl,pa"	\
+	--audio-drv-list="alsa,sdl"	\
 	--disable-gtk			\
 	--disable-strip			\
 	--enable-linux-aio		\
